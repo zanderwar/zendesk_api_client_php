@@ -26,8 +26,9 @@ class AuditLogs extends ClientAbstract
     {
         $endPoint = Http::prepare('audit_logs.json', null, $params);
         $response = Http::send($this->client, $endPoint, $params, 'GET');
+        print($this->client->getDebug());
         if ((!is_object($response)) || ($this->client->getDebug()->lastResponseCode != 200)) {
-            throw new ResponseException(__METHOD__);
+            throw new ResponseWithDebugInformationException($this->client->getDebug());
         }
         $this->client->setSideload(null);
 
